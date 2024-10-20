@@ -1,12 +1,14 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Typing : MonoBehaviour
 {
     public Text txtOutputWord;
+    public TextMeshPro tmp;
     private string remainWord = string.Empty;
-    private string currWord = "PASCOAL";
+    private string currWord = "JEDP";
 
     void Start()
     {
@@ -26,7 +28,8 @@ public class Typing : MonoBehaviour
     private void SetRemainWord(string currWord)
     {
         remainWord = currWord;
-        txtOutputWord.text = remainWord;
+        //txtOutputWord.text = remainWord;
+        tmp.text = remainWord;
     }
 
     private void InputLetter(string InputLetter)
