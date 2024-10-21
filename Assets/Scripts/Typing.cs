@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class Typing : MonoBehaviour
 {
-    public Text txtOutputWord;
-    public TextMeshPro tmp;
+    public TextMeshProUGUI tmpText;
     private string remainWord = string.Empty;
     private string currWord = "JEDP";
 
@@ -28,17 +27,17 @@ public class Typing : MonoBehaviour
     private void SetRemainWord(string currWord)
     {
         remainWord = currWord;
-        //txtOutputWord.text = remainWord;
-        tmp.text = remainWord;
+        tmpText.text = remainWord;
     }
 
     private void InputLetter(string InputLetter)
     {
         if (IsCorrectLetter(InputLetter))
         {
+            InstantiateLetter();
             RemoveLetter();
             if (IsAllLetterCurrect())
-                SetCurrWord();
+                Destroy(gameObject);
         }
     }
 
@@ -66,5 +65,15 @@ public class Typing : MonoBehaviour
     private bool IsAllLetterCurrect()
     {
         return remainWord.Length == 0;
+    }
+
+    private void InstantiateLetter()
+    {
+        var script = gameObject.GetComponent<Paper>();
+        Paper.Instance = script;
+        GameObject rg = Instantiate(Paper.Instance.Letters[0], gameObject.transform.position, gameObject.transform.rotation);
+        rg.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 5f, ForceMode2D.Impulse);
+        Paper.Instance.Letters.RemoveAt(0);
+        Destroy(rg,3f);
     }
 }
