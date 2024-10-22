@@ -1,10 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
+    private List<string> repository = new List<string>()
+    {
+        "JULIA","ALIOUNE","SATUTA","ARQUEL","JORDAO"
+    };
+    private List<string> words = new List<string>();
     private float second;
+    private float timeToNewWord;
     private int totalScore;
     private int minute, secondInt;
     private int totalLife = 10;
@@ -18,6 +27,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        words.AddRange(repository);
     }
 
     public GameObject LettersObject
@@ -27,13 +37,22 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        //if (Typing.Instance.CurrentWord.Length != 0)
         InstantiatePaper(-5.24f, 6.19f);
         //InstantiatePaper(0.97f, 6.19f);
     }
 
     void Update()
     {
+        timeToNewWord += Time.deltaTime;
+
+        if (words.Count != 0 && timeToNewWord > 3)
+        {
+            InstantiatePaper(0.97f, 6.19f);
+            timeToNewWord = 0;
+        }
         SetTime();
+
     }
 
     private void InstantiatePaper(float x, float y)
@@ -87,5 +106,22 @@ public class LevelManager : MonoBehaviour
             other.gameObject.GetComponent<Typing>().enabled = false;
             Destroy(other.gameObject, 5f);
         }
+    }
+
+    public string GetWord()
+    {
+        Debug.Log(words.Count);
+        var newWord = string.Empty;
+        if (words.Count != 0)
+        {
+            newWord = words.Last();
+            //words.Remove(newWord);
+        }
+        return newWord;
+    }
+
+    public void RemWord()
+    {
+        words.Remove(words.Last());
     }
 }

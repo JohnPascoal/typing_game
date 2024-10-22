@@ -7,12 +7,16 @@ public class Typing : MonoBehaviour
     public static Typing Instance { get; set; }
     public TextMeshProUGUI tmpText;
     private string remainWord = string.Empty;
-    private string currWord = "AS";
+    private string currWord = string.Empty;
     private bool isDirection;
 
     public string CurrentWord
     {
-        get { return currWord; }
+        get
+        {
+            currWord = LevelManager.Instance.GetWord();
+            return currWord;
+        }
     }
 
     private void Awake()
@@ -30,9 +34,12 @@ public class Typing : MonoBehaviour
         CheckLetterInput();
     }
 
-    private void SetCurrWord()
+    public string SetCurrWord()
     {
+        //currWord = LevelManager.Instance.GetWord();
+        LevelManager.Instance.RemWord();
         SetRemainWord(currWord);
+        return currWord;
     }
 
     private void SetRemainWord(string currWord)
