@@ -9,7 +9,7 @@ public class Paper : MonoBehaviour
     [SerializeField] private GameObject point, point2;
     private bool isMoveRight;
     private float time;
-    public TextMeshProUGUI txtText;
+    public TextMeshProUGUI txtBackText;
     private List<GameObject> letters;
 
     public List<GameObject> Letters
@@ -27,7 +27,8 @@ public class Paper : MonoBehaviour
         var r = Random.Range(0, 3);
         isMoveRight = r == 1;
 
-        var textLower = txtText.text;
+        txtBackText.text = Typing.Instance.CurrentWord;
+        var textLower = Typing.Instance.CurrentWord;
 
         letters = new List<GameObject>();
 
@@ -74,9 +75,6 @@ public class Paper : MonoBehaviour
         }
     }
 
-    private void Rotation()
-    {
-        transform.Rotate(0f, 0f, 1f);
+    
 
-    }
 }
