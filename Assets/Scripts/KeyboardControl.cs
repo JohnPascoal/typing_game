@@ -1,5 +1,8 @@
 using UnityEngine;
 
+//
+// Summary:
+//     Handle the virtual keyboard's behavior.
 public class KeyboardControl : MonoBehaviour
 {
     [SerializeField] private GameObject[] keys;

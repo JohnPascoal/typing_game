@@ -2,6 +2,9 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 
+// Summary:
+//     Words repository.
 public class WordsRepository : MonoBehaviour
 {
     public static WordsRepository Instance { get; private set; }
@@ -10,37 +13,26 @@ public class WordsRepository : MonoBehaviour
         "ELZAC","ALIOUNE","SATUTA","ELIAS","ARQUEL","ELY","JULIA","JORDAO"
     };
 
-    public List<string> Repository
-    {
-        get { return repository; }
-    }
-
     private void Awake()
     {
         Instance = this;
-        ChangeListOrder(Repository);
+        ChangeListOrder(repository);
     }
 
     // 
     // Summary:
-    //     Get next word in repository.
-    public string GetWord()
-    {
-        var newWord = string.Empty;
-        if (repository.Count != 0)
-        {
-            newWord = repository.Last();
-        }
-        return newWord;
-    }
+    //     Return the repository's size.
+    public int Size() => repository.Count;
+
+    // 
+    // Summary:
+    //     Return a word from the repository.
+    public string GetItem() => repository.Count > 0 ? repository.Last() : string.Empty;
 
     // 
     // Summary:
     //     Remove the used word from repository.
-    public void RemoveWord()
-    {
-        repository.Remove(repository.Last());
-    }
+    public void RemoveItem() => repository.Remove(repository.Last());
 
     // 
     // Summary:
@@ -54,7 +46,7 @@ public class WordsRepository : MonoBehaviour
         for (int i = 0; i < repository.Count; i++)
         {
             var random = Random.Range(i, repository.Count);
-            (newListOrder[random], newListOrder[i]) = (newListOrder[i], newListOrder[random]); //tuples
+            (newListOrder[random], newListOrder[i]) = (newListOrder[i], newListOrder[random]);
         }
     }
 }

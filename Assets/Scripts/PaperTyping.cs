@@ -3,10 +3,10 @@ using UnityEngine;
 
 // 
 // Summary:
-//     Manipulate the behavior of object while the user hits any keys.
-public class TypingControl : MonoBehaviour
+//     Handle the behavior of object while the user hits any keys.
+public class PaperTyping : MonoBehaviour
 {
-    public static TypingControl Instance { get; set; }
+    public static PaperTyping Instance { get; set; }
     public TextMeshProUGUI tmpText;
     [SerializeField] private AudioClip audioKeyPressed;
     private string remainWord = string.Empty;
@@ -17,7 +17,7 @@ public class TypingControl : MonoBehaviour
     {
         get
         {
-            word = WordsRepository.Instance.GetWord();
+            word = WordsRepository.Instance.GetItem();
             return word;
         }
     }
@@ -36,7 +36,7 @@ public class TypingControl : MonoBehaviour
     //     Initialize the next word from the repository.
     public void SeteWord()
     {
-        WordsRepository.Instance.RemoveWord();
+        WordsRepository.Instance.RemoveItem();
         SetRemainWord(word);
     }
 
@@ -109,10 +109,10 @@ public class TypingControl : MonoBehaviour
     //     Instantiate a object and apply a force.
     private void InstantiateLetter()
     {
-        Paper.Instance = gameObject.GetComponent<Paper>();
-        GameObject rg = Instantiate(Paper.Instance.Letters[0], gameObject.transform.position, gameObject.transform.rotation);
+        PaperMovement.Instance = gameObject.GetComponent<PaperMovement>();
+        GameObject rg = Instantiate(PaperMovement.Instance.Letters[0], gameObject.transform.position, gameObject.transform.rotation);
         rg.GetComponent<Rigidbody2D>().AddForce((isDirectionRight ? Vector2.left : Vector2.right) * 5f, ForceMode2D.Impulse);
-        Paper.Instance.Letters.RemoveAt(0);
+        PaperMovement.Instance.Letters.RemoveAt(0);
         isDirectionRight = !isDirectionRight;
         Destroy(rg, 5f);
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 //
 // Summary:
-//     Control all of the current level's gameObjects.
+//     Handle all of the current level's gameObjects.
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
     {
         timeToNewWord += Time.deltaTime;
 
-        if (WordsRepository.Instance.Repository.Count > 0 && timeToNewWord >= 3f)
+        if (WordsRepository.Instance.Size() > 0 && timeToNewWord >= 3f)
         {
             CreatePaperObject(positions[Random.Range(0, positions.Count)]);
             timeToNewWord = 0;
@@ -61,8 +61,8 @@ public class LevelManager : MonoBehaviour
     private void CreatePaperObject(Vector2 position)
     {
         var newPaperObject = Instantiate(paperObject, position, paperObject.transform.rotation);
-        TypingControl.Instance = newPaperObject.GetComponent<TypingControl>();
-        var width = TypingControl.Instance.Word.Length * 0.8f;
+        PaperTyping.Instance = newPaperObject.GetComponent<PaperTyping>();
+        var width = PaperTyping.Instance.Word.Length * 0.8f;
 
         var frontalCanvas = newPaperObject.transform.Find("FrontalCanvas").gameObject;
         frontalCanvas.GetComponent<RectTransform>().sizeDelta = new Vector2(width, 1.39f);
@@ -123,7 +123,7 @@ public class LevelManager : MonoBehaviour
         if (other.CompareTag("Paper"))
         {
             SetLife(-1);
-            other.gameObject.GetComponent<TypingControl>().enabled = false;
+            other.gameObject.GetComponent<PaperTyping>().enabled = false;
             Destroy(other.gameObject, 5f);
         }
     }

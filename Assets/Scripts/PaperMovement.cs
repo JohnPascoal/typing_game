@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Paper : MonoBehaviour
+// 
+// Summary:
+//     Handle the object's movements in scene.
+public class PaperMovement : MonoBehaviour
 {
-    public static Paper Instance { get; set; }
+    public static PaperMovement Instance { get; set; }
     [SerializeField] private GameObject point, point2;
     public TextMeshProUGUI txtBackText;
     private readonly List<GameObject> letters = new();
@@ -26,7 +29,7 @@ public class Paper : MonoBehaviour
     {
         isMoveRight = Random.Range(0, 3) == 1;
 
-        txtBackText.text = TypingControl.Instance.Word;        
+        txtBackText.text = PaperTyping.Instance.Word;
 
         foreach (var letter in txtBackText.text)
         {
@@ -41,8 +44,19 @@ public class Paper : MonoBehaviour
         MovementHorizontal();
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.layer == 6) gameObject.GetComponent<PaperTyping>().enabled = true;
+    }
+
+    // 
+    // Summary:
+    //     Handle the object's vertical movement in scene.
     private void MovementVertical() => transform.position += new Vector3(0, -1 * moveForceV * Time.deltaTime, 0f);
 
+    // 
+    // Summary:
+    //     Handle the object's horizontal movement and rotation in scene.
     private void MovementHorizontal()
     {
         if (isMoveRight)
@@ -67,13 +81,4 @@ public class Paper : MonoBehaviour
             }
         }
     }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.layer == 6)
-        {
-            gameObject.GetComponent<TypingControl>().enabled = true;
-        }
-    }
-
 }
