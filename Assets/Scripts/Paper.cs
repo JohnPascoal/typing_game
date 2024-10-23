@@ -5,12 +5,12 @@ using UnityEngine;
 public class Paper : MonoBehaviour
 {
     public static Paper Instance { get; set; }
-    [SerializeField] private float moveForceV = 1f;
     [SerializeField] private GameObject point, point2;
+    public TextMeshProUGUI txtBackText;
+    private readonly List<GameObject> letters = new();
+    [SerializeField] private float moveForceV = 1f;
     private bool isMoveRight;
     private float time;
-    public TextMeshProUGUI txtBackText;
-    private List<GameObject> letters;
 
     public List<GameObject> Letters
     {
@@ -24,15 +24,11 @@ public class Paper : MonoBehaviour
 
     private void Start()
     {
-        var r = Random.Range(0, 3);
-        isMoveRight = r == 1;
+        isMoveRight = Random.Range(0, 3) == 1;
 
-        txtBackText.text = Typing.Instance.CurrentWord;
-        var textLower = Typing.Instance.CurrentWord;
+        txtBackText.text = TypingControl.Instance.Word;        
 
-        letters = new List<GameObject>();
-
-        foreach (var letter in textLower)
+        foreach (var letter in txtBackText.text)
         {
             letters.Add(LevelManager.Instance.LettersObject.transform.Find(letter.ToString()).gameObject);
         }
@@ -41,16 +37,13 @@ public class Paper : MonoBehaviour
     private void Update()
     {
         time += Time.deltaTime;
-        Movement();
         MovementVertical();
+        MovementHorizontal();
     }
 
-    private void Movement()
-    {
-        transform.position += new Vector3(0, -1 * moveForceV * Time.deltaTime, 0f);
-    }
+    private void MovementVertical() => transform.position += new Vector3(0, -1 * moveForceV * Time.deltaTime, 0f);
 
-    private void MovementVertical()
+    private void MovementHorizontal()
     {
         if (isMoveRight)
         {
@@ -72,6 +65,14 @@ public class Paper : MonoBehaviour
                 isMoveRight = true;
                 time = 0;
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.layer == 6)
+        {
+            gameObject.GetComponent<TypingControl>().enabled = true;
         }
     }
 

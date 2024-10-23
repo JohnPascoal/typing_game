@@ -4,17 +4,11 @@ public class KeyboardControl : MonoBehaviour
 {
     [SerializeField] private GameObject[] keys;
 
-    private void Start()
-    {
-        //anim = GetComponent<Animator>();
-    }
+    private void Update() => KeyPressed();
 
-    // Update is called once per frame
-    private void Update()
-    {
-        KeyPressed();
-    }
-
+    //
+    // Summary:
+    //     Initialize animation after hit key.
     private void KeyPressed()
     {
         keys[0].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.Q));
@@ -36,7 +30,7 @@ public class KeyboardControl : MonoBehaviour
         keys[16].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.J));
         keys[17].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.K));
         keys[18].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.L));
-        keys[19].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.Z));        
+        keys[19].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.Z));
         keys[20].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.X));
         keys[21].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.C));
         keys[22].GetComponent<Animator>().SetBool("IsPressed", Input.GetKey(KeyCode.V));

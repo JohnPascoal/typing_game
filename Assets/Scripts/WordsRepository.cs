@@ -1,30 +1,60 @@
-//using System.Linq;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WordsRepository : MonoBehaviour
 {
-    private List<string> repository = new List<string>(){
-        "JULIA","ALIOUNE","SATUTA","ARQURL","JORDAO"
-        };
-    private List<string> words = new List<string>();
+    public static WordsRepository Instance { get; private set; }
+    private readonly List<string> repository = new()
+    {
+        "ELZAC","ALIOUNE","SATUTA","ELIAS","ARQUEL","ELY","JULIA","JORDAO"
+    };
+
+    public List<string> Repository
+    {
+        get { return repository; }
+    }
 
     private void Awake()
     {
-        words.AddRange(repository);
+        Instance = this;
+        ChangeListOrder(Repository);
     }
 
+    // 
+    // Summary:
+    //     Get next word in repository.
     public string GetWord()
     {
-        Debug.Log("in");
-        Debug.Log(words.Count);
-        var currentWord = string.Empty;
-        if (words.Count != 0)
+        var newWord = string.Empty;
+        if (repository.Count != 0)
         {
-            currentWord = words[0];
-            words.Remove(currentWord);
+            newWord = repository.Last();
         }
+        return newWord;
+    }
 
-        return currentWord;
+    // 
+    // Summary:
+    //     Remove the used word from repository.
+    public void RemoveWord()
+    {
+        repository.Remove(repository.Last());
+    }
+
+    // 
+    // Summary:
+    //     Shuffle the order of list.
+    //
+    // Parameters:
+    //   newListOrder:
+    //     List to shuffle the order. 
+    private void ChangeListOrder(List<string> newListOrder)
+    {
+        for (int i = 0; i < repository.Count; i++)
+        {
+            var random = Random.Range(i, repository.Count);
+            (newListOrder[random], newListOrder[i]) = (newListOrder[i], newListOrder[random]); //tuples
+        }
     }
 }
