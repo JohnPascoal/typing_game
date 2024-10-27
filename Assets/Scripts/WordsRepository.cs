@@ -10,7 +10,7 @@ public class WordsRepository : MonoBehaviour
     public static WordsRepository Instance { get; private set; }
     private readonly List<string> repository = new()
     {
-        "ELZAC","ALIOUNE","SATUTA","ELIAS","ARQUEL","ELY","JULIA","JORDAO"
+        "ELZAC","ALIOUNE"//,"SATUTA","JULIA","ARQUEL","DARIO","JOEL","JORDAO","LANDO","IMACULADA","EDUVANIA"
     };
 
     private void Awake()
@@ -27,12 +27,12 @@ public class WordsRepository : MonoBehaviour
     // 
     // Summary:
     //     Return a word from the repository.
-    public string GetItem() => repository.Count > 0 ? repository.Last() : string.Empty;
+    public string GetItem() => repository.Count > 0 ? repository.First() : string.Empty;
 
     // 
     // Summary:
     //     Remove the used word from repository.
-    public void RemoveItem() => repository.Remove(repository.Last());
+    public void RemoveItem() => repository.Remove(repository.First());
 
     // 
     // Summary:

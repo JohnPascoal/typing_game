@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -7,11 +8,15 @@ using UnityEngine;
 public class PaperTyping : MonoBehaviour
 {
     public static PaperTyping Instance { get; set; }
-    public TextMeshProUGUI tmpText;
+    [SerializeField] private TextMeshProUGUI tmpFrontalText;
+    [SerializeField] private TextMeshProUGUI tmpBackText;
     [SerializeField] private AudioClip audioKeyPressed;
+    private readonly List<GameObject> letters = new();
     private string remainWord = string.Empty;
     private string word = string.Empty;
     private bool isDirectionRight;
+    private float letterPosition = 0f;
+    public bool IsEnableTyping { get; set; }
 
     public string Word
     {
@@ -27,9 +32,20 @@ public class PaperTyping : MonoBehaviour
     private void Start()
     {
         SeteWord();
+        AddLetters();
     }
 
-    private void Update() => CheckingInput();
+    private void Update()
+    {
+        tmpFrontalText.enabled = IsEnableTyping;
+        CheckingInput();
+    }
+
+    private void AddLetters()
+    {
+        foreach (var letter in word)
+            letters.Add(LevelManager.Instance.LettersObject.transform.Find(letter.ToString()).gameObject);
+    }
 
     // 
     // Summary:
@@ -37,6 +53,7 @@ public class PaperTyping : MonoBehaviour
     public void SeteWord()
     {
         WordsRepository.Instance.RemoveItem();
+        tmpBackText.text = word;
         SetRemainWord(word);
     }
 
@@ -49,7 +66,7 @@ public class PaperTyping : MonoBehaviour
     private void SetRemainWord(string currentWord)
     {
         remainWord = currentWord;
-        tmpText.text = remainWord;
+        tmpFrontalText.text = remainWord;
     }
 
     // 
@@ -80,7 +97,7 @@ public class PaperTyping : MonoBehaviour
         if (Input.anyKeyDown)
         {
             var letter = Input.inputString;
-            if (letter.Length == 1)
+            if (letter.Length == 1 && IsEnableTyping)
                 InputLetter(letter.ToUpper());
         }
     }
@@ -109,11 +126,16 @@ public class PaperTyping : MonoBehaviour
     //     Instantiate a object and apply a force.
     private void InstantiateLetter()
     {
-        PaperMovement.Instance = gameObject.GetComponent<PaperMovement>();
-        GameObject rg = Instantiate(PaperMovement.Instance.Letters[0], gameObject.transform.position, gameObject.transform.rotation);
+        //PaperMovement.Instance = gameObject.GetComponent<PaperMovement>();
+
+        GameObject rg = Instantiate(letters[0], new Vector3(gameObject.transform.position.x + letterPosition,
+        gameObject.transform.position.y, 0f), gameObject.transform.rotation);
+        letterPosition += 0.23f;
+        //GameObject rg = Instantiate(PaperMovement.Instance.Letters[0], gameObject.transform.position, gameObject.transform.rotation);
         rg.GetComponent<Rigidbody2D>().AddForce((isDirectionRight ? Vector2.left : Vector2.right) * 5f, ForceMode2D.Impulse);
-        PaperMovement.Instance.Letters.RemoveAt(0);
+        letters.RemoveAt(0);
         isDirectionRight = !isDirectionRight;
         Destroy(rg, 5f);
     }
+
 }

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 233714400780317031}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.22, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 236894845678074844}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.22, y: 0, z: 0}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -688,9 +688,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f0297f24016eb4591cb464f9928c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: {fileID: 233714400780317031}
-  point2: {fileID: 236894845678074844}
-  txtBackText: {fileID: 3939232889066702382}
+  pointRight: {fileID: 233714400780317031}
+  pointLeft: {fileID: 236894845678074844}
   moveForceV: 0.5
 --- !u!114 &8879683697038226377
 MonoBehaviour:
@@ -699,12 +698,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5723735624664954941}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ef44f072115b0245a439117f0c17161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tmpText: {fileID: 1097688259799944795}
+  tmpFrontalText: {fileID: 1097688259799944795}
+  tmpBackText: {fileID: 3939232889066702382}
   audioKeyPressed: {fileID: 8300000, guid: 7bac421e662e0cd419d575d43fb0e75f, type: 3}
 --- !u!61 &5175512500566444521
 BoxCollider2D:
@@ -928,7 +928,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6576730802869340722}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 

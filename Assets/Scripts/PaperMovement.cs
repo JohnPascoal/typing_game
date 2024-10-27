@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 // 
@@ -7,46 +5,31 @@ using UnityEngine;
 //     Handle the object's movements in scene.
 public class PaperMovement : MonoBehaviour
 {
-    public static PaperMovement Instance { get; set; }
-    [SerializeField] private GameObject point, point2;
-    public TextMeshProUGUI txtBackText;
-    private readonly List<GameObject> letters = new();
-    [SerializeField] private float moveForceV = 1f;
+    public static PaperMovement Instance;
+    [SerializeField] private GameObject pointRight, pointLeft;
+    [SerializeField] private float moveForceV = 0.5f;
     private bool isMoveRight;
-    private float time;
+    private float time; // Time to change the current position and rotation
 
-    public List<GameObject> Letters
-    {
-        get { return letters; }
-    }
+    private void Awake() => Instance = this;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        isMoveRight = Random.Range(0, 3) == 1;
-
-        txtBackText.text = PaperTyping.Instance.Word;
-
-        foreach (var letter in txtBackText.text)
-        {
-            letters.Add(LevelManager.Instance.LettersObject.transform.Find(letter.ToString()).gameObject);
-        }
-    }
+    private void Start() => isMoveRight = Random.Range(0, 3) == 1;
 
     private void Update()
     {
         time += Time.deltaTime;
-        MovementVertical();
-        MovementHorizontal();
+
+        if (!LevelManager.Instance.IsPausedGame)
+        {
+            MovementVertical();
+            MovementHorizontal();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.layer == 6) gameObject.GetComponent<PaperTyping>().enabled = true;
+        if (other.gameObject.layer == 6)
+            PaperTyping.Instance.IsEnableTyping = true;
     }
 
     // 
@@ -61,8 +44,8 @@ public class PaperMovement : MonoBehaviour
     {
         if (isMoveRight)
         {
-            transform.position = Vector2.MoveTowards(transform.position, point.transform.position, 1.1f * Time.deltaTime);
-            transform.Rotate(0f, 0f, Random.Range(0f, 0.5f));
+            transform.position = Vector2.MoveTowards(transform.position, pointRight.transform.position, 1.1f * Time.deltaTime);
+            transform.Rotate(0f, 0f, Random.Range(0f, .5f));
             if (time >= 0.8f)
             {
                 isMoveRight = false;
@@ -72,8 +55,8 @@ public class PaperMovement : MonoBehaviour
 
         if (!isMoveRight)
         {
-            transform.position = Vector2.MoveTowards(transform.position, point2.transform.position, 1.1f * Time.deltaTime);
-            transform.Rotate(0f, 0f, Random.Range(0f, 0.5f) * -1);
+            transform.position = Vector2.MoveTowards(transform.position, pointLeft.transform.position, 1.1f * Time.deltaTime);
+            transform.Rotate(0f, 0f, Random.Range(0f, .5f) * -1);
             if (time >= 0.8f)
             {
                 isMoveRight = true;
