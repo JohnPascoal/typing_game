@@ -2685,7 +2685,7 @@ GameObject:
   - component: {fileID: 1163191669}
   - component: {fileID: 1163191668}
   m_Layer: 5
-  m_Name: txtGameOver
+  m_Name: txtGamePaused
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

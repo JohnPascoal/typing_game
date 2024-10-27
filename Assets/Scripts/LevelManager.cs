@@ -53,14 +53,14 @@ public class LevelManager : MonoBehaviour
         IsGameWin();
         SetTime();
 
-        if (isPaused)
+        if (isPaused || isGameOver || isGameWin)
             PausedGame();
         else
             ResumeGame();
 
         if (!isGameOver && !isGameWin && Input.GetKeyDown(KeyCode.Pause))
         {
-            pausedPanel.transform.Find("txtGameOver").GetComponent<Text>().text = "Paused";
+            pausedPanel.transform.Find("txtGamePaused").GetComponent<Text>().text = "Paused";
             isPaused = !isPaused;
         }
 
@@ -105,7 +105,7 @@ public class LevelManager : MonoBehaviour
 
     // 
     // Summary:
-    //     Game's time [00:00].
+    //     Update time of Game [00:00].
     private void SetTime()
     {
         second += Time.deltaTime;
@@ -166,7 +166,7 @@ public class LevelManager : MonoBehaviour
     {
         if (status)
         {
-            pausedPanel.transform.Find("txtGameOver").GetComponent<Text>().text = "Game over";
+            pausedPanel.transform.Find("txtGamePaused").GetComponent<Text>().text = "Game over";
             isPaused = true;
             isGameOver = true;
         }
@@ -176,8 +176,7 @@ public class LevelManager : MonoBehaviour
     {
         if (WordsRepository.Instance.Size() == 0 && GameObject.FindGameObjectsWithTag("Paper").Length == 0)
         {
-            pausedPanel.transform.Find("txtGameOver").GetComponent<Text>().text = "You win";
-            isPaused = true;
+            pausedPanel.transform.Find("txtGamePaused").GetComponent<Text>().text = "You win";
             isGameWin = true;
         }
     }
@@ -190,12 +189,14 @@ public class LevelManager : MonoBehaviour
     private void PausedGame()
     {
         pausedPanel.SetActive(true);
+        GetComponent<AudioSource>().mute = isPaused;
         Time.timeScale = 0f;
     }
 
     public void ResumeGame()
     {
         pausedPanel.SetActive(false);
+        GetComponent<AudioSource>().mute = false;
         Time.timeScale = 1;
     }
 }

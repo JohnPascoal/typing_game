@@ -10,7 +10,7 @@ public class WordsRepository : MonoBehaviour
     public static WordsRepository Instance { get; private set; }
     private readonly List<string> repository = new()
     {
-        "ELZAC","ALIOUNE"//,"SATUTA","JULIA","ARQUEL","DARIO","JOEL","JORDAO","LANDO","IMACULADA","EDUVANIA"
+        "ELZAC","ALIOUNE","SATUTA","JULIA","ARQUEL","DARIO","JOEL","JORDAO","LANDO","IMACULADA","EDUVANIA"
     };
 
     private void Awake()
